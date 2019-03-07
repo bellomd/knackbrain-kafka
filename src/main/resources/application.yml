@@ -1,0 +1,12 @@
+spring:
+  kafka:
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      bootstrap-servers: localhost:9092
+  datasource:
+    url: jdbc:postgresql://localhost:5432/public
+    username: postgres
+    password: @postgres!
+  jpa:
+    hibernate:
+      ddl-auto: create
