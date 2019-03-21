@@ -9,16 +9,24 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.knackbrain.kafka.util.LocalDateTimeDeserializer;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 
+@Entity
 public class Message implements Serializable {
 
     private static final long serialVersionUID = -7897883318748171099L;
 
+    @Id
+    @GeneratedValue
     private Long id;
+
+    private String title;
     private String message;
 
     public Long getId() {
@@ -27,6 +35,14 @@ public class Message implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getMessage() {

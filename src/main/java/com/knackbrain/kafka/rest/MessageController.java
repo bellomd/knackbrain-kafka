@@ -13,7 +13,7 @@ import static com.knackbrain.kafka.util.KafkaConstant.topicName;
 @RestController
 public class MessageController {
 
-    private KafkaTemplate<Object, Object> kafkaTemplate;
+    private final KafkaTemplate<Object, Object> kafkaTemplate;
 
     @Autowired
     public MessageController(final KafkaTemplate<Object, Object> kafkaTemplate) {

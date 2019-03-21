@@ -3,24 +3,46 @@ services:
   zookeeper:
     container_name: zookeeper
     image: zookeeper
+#    networks:
+#      - zookeeper_kafka_docker
     ports:
       - "2181:2181"
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 12181
-      ZOOKEEPER_TICK_TIME: 2000
-      ZOOKEEPER_INIT_LIMIT: 5
-      ZOOKEEPER_SYNC_LIMIT: 2
+#    environment:
+#      ZOOKEEPER_CLIENT_PORT: 12181
+#      ZOOKEEPER_TICK_TIME: 2000
+#      ZOOKEEPER_INIT_LIMIT: 5
+#      ZOOKEEPER_SYNC_LIMIT: 2
 
   kafka:
     container_name: kafka
     image: wurstmeister/kafka
+#    networks:
+#      - zookeeper_kafka_docker
+    links:
+      - zookeeper
     ports:
       - "9092:9092"
     depends_on:
       - zookeeper
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ADVERTISED_HOST_NAME: localhost
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://:9092
+      LISTENERS: PLAINTEXT://:9092
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+  app:
+    container_name: springbootkafka
+    restart: always
+    links:
+      - kafka
+#    networks:
+#      - zookeeper_kafka_docker
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - kafka
+#networks:
+#  zookeeper_kafka_docker:
+#    driver: bridge
