@@ -7,15 +7,19 @@ spring:
     consumer:
       bootstrap-servers: 192.168.0.100:9092
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://192.168.0.100:5432/postgres
     username: postgres
-    password: '@postgres!'
+    password: password
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: create
 #      naming.implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
-    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+#    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
     show-sql: true
     properties:
       hibernate:
         format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        temp:
+          use_jdbc_metadata_defaults: false
